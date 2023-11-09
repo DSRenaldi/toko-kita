@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html
+    networks:
+      - local
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: eda
+    networks:
+      - local
+    volumes:
+      - db_data_toko_kita:/var/lib/mysql
+volumes:
+  db_data_toko_kita:
+networks:
+  local:
+    driver: bridge
